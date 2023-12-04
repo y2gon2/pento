@@ -83,11 +83,20 @@ defmodule PentoWeb.Router do
 
     live_session :require_authenticated_user,
       # root_layout: {PentoWeb.Layouts, :root}, # 해당 인자는 이미 default 라서 적용해도 동일함.
+      # user_auth.ex
       on_mount: [{PentoWeb.UserAuth, :ensure_authenticated}] do
       # 어떤 browser HTTP request 에 대해서 authentication 이 필요하진 설정
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+
       live "/guess", WrongLive
+
+      live "/products", ProductLive.Index, :index
+      live "/products/new", ProductLive.Index, :new # :new -> action argument (해당 view 를 실행할 때 socket 에 넣을 action??)
+      live "/products/:id/edit", ProdcutLive.Index, :erl_distribution
+
+      live "/products/:id", ProdctLive.Show, :show
+      live "/products/:id/show/edit", ProductLive.Show, :edit
     end
   end
 
